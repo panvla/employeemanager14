@@ -8,7 +8,8 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Add Employee <span class="sr-only">(current)</span></a>
+        <a (click)="onOpenModal(null, 'add')" class="nav-link" href="#">Add Employee <span
+            class="sr-only">(current)</span></a>
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
@@ -18,31 +19,30 @@
 </nav>
 
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-<div class="container">
+<div class="container" id="main-container">
   <div class="row">
-    <div class="col-md-6 col-xl-3 mt-3">
+    <div *ngFor="let employee of employees" class="col-md-6 col-xl-3 mt-3">
       <div class="card m-b-30">
         <div class="card-body row">
           <div class="col-6">
-            <a href=""><img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt=""
-                class="img-fluid rounded-circle w-60"></a>
+            <a href=""><img src="{{employee?.imageUrl}}" alt="" class="img-fluid rounded-circle w-60"></a>
           </div>
           <div class="col-6 card-title align-self-center mb-0">
-            <h5>Emma A. Main</h5>
-            <p class="m-0">Graphics Designer</p>
+            <h5>{{employee?.name}}</h5>
+            <p class="m-0">{{employee?.jobTitle}}</p>
           </div>
         </div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item"><i class="fa fa-envelope float-right"></i>Email : <a
-              href="#">PaulGoyette@gmail.com</a></li>
-          <li class="list-group-item"><i class="fa fa-phone float-right"></i>Phone : 000 123-456</li>
+              href="#">{{employee?.email}}</a></li>
+          <li class="list-group-item"><i class="fa fa-phone float-right"></i>Phone : {{employee?.phone}}</li>
         </ul>
         <div class="card-body">
           <div class="float-right btn-group btn-group-sm">
-            <a href="#" class="btn btn-primary tooltips" data-placement="top" data-toggle="tooltip"
-              data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
-            <a href="#" class="btn btn-secondary tooltips" data-placement="top" data-toggle="tooltip"
-              data-original-title="Delete"><i class="fa fa-times"></i></a>
+            <a (click)="onOpenModal(employee, 'edit')" href="#" class="btn btn-primary tooltips" data-placement="top"
+              data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
+            <a (click)="onOpenModal(employee, 'delete')" href="#" class="btn btn-secondary tooltips"
+              data-placement="top" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-times"></i></a>
           </div>
         </div>
       </div>
@@ -51,7 +51,7 @@
 </div>
 
 <!--Add Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="addEmployeeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -72,7 +72,7 @@
 </div>
 
 <!--Edit Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="editEmployeeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -93,7 +93,7 @@
 </div>
 
 <!--Delete Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteEmployeeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -113,6 +113,6 @@
   </div>
 </div>
 
-<div class="alert alert-primary mt-3" role="alert">
+<div *ngIf="employees?.length == 0" class="alert alert-primary mt-3" role="alert">
   <p>No Employees Found!</p>
 </div>
