@@ -36,9 +36,45 @@ export class AppComponent implements OnInit{
   public onAddEmployee(addForm: NgForm): void {
     document.getElementById('add-employee-form').click();
     this.employeeService.addEmployee(addForm.value).subscribe(
-      
+      (response: Employee)=>{
+        console.log(response);
+        this.getEmployees();
+        addForm.reset();
+      },
+      (error: HttpErrorResponse)=>{
+        alert(error.message);
+        addForm.reset();
+      }
     );
   }
+
+  public onEditEmployee(editForm: NgForm): void {
+    document.getElementById('edit-employee-form').click();
+    this.employeeService.updateEmployee(editForm.value).subscribe(
+      (response: Employee)=>{
+        console.log(response);
+        this.getEmployees();
+      },
+      (error: HttpErrorResponse)=>{
+        alert(error.message);
+      }
+    );
+  }
+
+  public onDeleteEmployee(employeeId: number): void {
+    document.getElementById('delete-employee-form').click();
+    this.employeeService.deleteEmployee(employeeId).subscribe(
+      (response: void)=>{
+        console.log(response);
+        this.getEmployees();
+      },
+      (error: HttpErrorResponse)=>{
+        alert(error.message);
+      }
+    );
+  }
+
+
 
   public onOpenModal(employee: Employee, mode: string): void {
     const container = document.getElementById('main-container');
